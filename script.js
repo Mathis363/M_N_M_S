@@ -12,7 +12,11 @@ const SITE_URL = "https://mathis363.github.io/M_N_M_S/";
    ============================================================ */
 const I18N = {
   en: {
-    "meta.title": "M_N_M_S Bot — Custom Discord bots",
+    "meta.title": "M_N_M_S — Discord bots, websites & custom apps",
+    "nav.home": "Home",
+    "nav.discord": "Discord bots",
+    "nav.websites": "Websites",
+    "nav.apps": "Apps",
     "nav.services": "Services",
     "nav.demo": "Demo",
     "nav.process": "Process",
@@ -20,6 +24,50 @@ const I18N = {
     "nav.contact": "Contact",
     "nav.login": "Login",
     "nav.start": "Get started",
+
+    "portal.badge": "Independent digital studio",
+    "portal.title1": "One studio.",
+    "portal.title2": "Many ways to build.",
+    "portal.sub": "Discord bots are where we started. Websites, custom apps and new worlds are next. Choose a universe and tell us what you want to create.",
+    "portal.cta1": "Explore Discord bots",
+    "portal.cta2": "Start a project",
+    "portal.meta1": "⚡ Fast delivery",
+    "portal.meta2": "🧩 Fully custom",
+    "portal.meta3": "🤝 Long-term support",
+    "portal.eyebrow": "What we build",
+    "portal.title": "Pick your universe",
+    "portal.subtitle": "Each category has its own tools, expertise and possibilities. More are coming.",
+    "portal.status.live": "Available now",
+    "portal.status.soon": "Coming soon",
+    "portal.discord.title": "Discord bots",
+    "portal.discord.desc": "Moderation, tickets, XP, anti-raid and custom features built for your community.",
+    "portal.websites.title": "Websites",
+    "portal.websites.desc": "Landing pages, dashboards and web experiences with a strong identity.",
+    "portal.websites.tags": "UI / UX|Front-end|Dashboards|Performance",
+    "portal.apps.title": "Custom apps",
+    "portal.apps.desc": "Tools, automations and APIs designed around the way you actually work.",
+    "portal.apps.tags": "Automation|APIs|Tools|Integrations",
+    "portal.minecraft.title": "Minecraft",
+    "portal.minecraft.desc": "Servers, plugins and custom game systems for your next adventure.",
+    "portal.minecraft.tags": "Servers|Plugins|Events|Worlds",
+    "portal.open": "Open this universe →",
+    "portal.discover": "Discover →",
+    "portal.value1.title": "Fast, without cutting corners",
+    "portal.value1.desc": "Clear milestones, quick feedback loops and a working preview before delivery.",
+    "portal.value2.title": "Built for your needs",
+    "portal.value2.desc": "No generic template: every feature is designed around your project.",
+    "portal.value3.title": "Support that stays",
+    "portal.value3.desc": "We do not disappear after delivery. Updates and fixes are part of the deal.",
+    "category.back": "All categories",
+    "category.eyebrow": "New universe",
+    "category.badge": "In development",
+    "category.panelTitle": "This universe is being prepared.",
+    "category.panelDesc": "We are building the tools and the team for this category. It will open soon.",
+    "category.request": "Request this category",
+    "category.explore": "Explore Discord bots",
+    "category.websites.note": "The website offer is being prepared: design, front-end and dashboards. Request it now and we will discuss your project.",
+    "category.apps.note": "Custom apps are coming: automations, internal tools and APIs. Tell us what you need and we will explore it with you.",
+    "category.minecraft.note": "The Minecraft universe is being prepared: servers, plugins and custom events. Request it to be among the first.",
 
     "hero.badge": "Custom Discord development",
     "hero.title1": "Discord bots",
@@ -82,12 +130,12 @@ const I18N = {
     "faq.q3": "What payment methods do you accept?",
     "faq.a3": "PayPal, bank transfer and cryptocurrencies.",
 
-    "contact.title": "Ready to bring your bot to life?",
-    "contact.sub": "Log in with Discord then describe your project: we open a ticket and reply within 24h.",
-    "contact.startBtn": "Create my bot",
+    "contact.title": "Ready to start your project?",
+    "contact.sub": "Log in with Discord then describe what you want to build: we open a ticket and reply within 24h.",
+    "contact.startBtn": "Start a project",
     "contact.connectedWith": "Connected with Discord",
     "contact.guestBtn": "Log in with Discord",
-    "contact.titlePh": "Bot title (e.g. Moderation bot)",
+    "contact.titlePh": "Project title (e.g. Discord bot, website)",
     "contact.msgPh": "Describe your project, your needs…",
     "contact.submit": "Send",
     "contact.sending": "Sending…",
@@ -163,7 +211,11 @@ const I18N = {
   },
 
   fr: {
-    "meta.title": "M_N_M_S Bot — Bots Discord sur mesure",
+    "meta.title": "M_N_M_S — Bots Discord, sites web & apps sur mesure",
+    "nav.home": "Accueil",
+    "nav.discord": "Bots Discord",
+    "nav.websites": "Sites web",
+    "nav.apps": "Apps",
     "nav.services": "Services",
     "nav.demo": "Démo",
     "nav.process": "Process",
@@ -171,6 +223,50 @@ const I18N = {
     "nav.contact": "Contact",
     "nav.login": "Connexion",
     "nav.start": "Démarrer",
+
+    "portal.badge": "Studio numérique indépendant",
+    "portal.title1": "Un studio.",
+    "portal.title2": "Mille façons de créer.",
+    "portal.sub": "Les bots Discord sont notre point de départ. Les sites web, les apps sur mesure et de nouveaux univers arrivent ensuite. Choisis un univers et raconte-nous ce que tu veux créer.",
+    "portal.cta1": "Explorer les bots Discord",
+    "portal.cta2": "Lancer un projet",
+    "portal.meta1": "⚡ Livraison rapide",
+    "portal.meta2": "🧩 Entièrement sur mesure",
+    "portal.meta3": "🤝 Support durable",
+    "portal.eyebrow": "Ce que nous créons",
+    "portal.title": "Choisis ton univers",
+    "portal.subtitle": "Chaque catégorie a ses outils, son expertise et ses possibilités. D'autres arrivent.",
+    "portal.status.live": "Disponible",
+    "portal.status.soon": "Bientôt",
+    "portal.discord.title": "Bots Discord",
+    "portal.discord.desc": "Modération, tickets, XP, anti-raid et fonctionnalités sur mesure pour ta communauté.",
+    "portal.websites.title": "Sites web",
+    "portal.websites.desc": "Landing pages, dashboards et expériences web avec une vraie identité.",
+    "portal.websites.tags": "UI / UX|Front-end|Dashboards|Performance",
+    "portal.apps.title": "Apps sur mesure",
+    "portal.apps.desc": "Outils, automatisations et APIs pensés pour ta façon de travailler.",
+    "portal.apps.tags": "Automatisation|APIs|Outils|Intégrations",
+    "portal.minecraft.title": "Minecraft",
+    "portal.minecraft.desc": "Serveurs, plugins et systèmes de jeu sur mesure pour ta prochaine aventure.",
+    "portal.minecraft.tags": "Serveurs|Plugins|Événements|Mondes",
+    "portal.open": "Ouvrir cet univers →",
+    "portal.discover": "Découvrir →",
+    "portal.value1.title": "Rapide, sans bâcler",
+    "portal.value1.desc": "Des étapes claires, des retours rapides et un aperçu fonctionnel avant la livraison.",
+    "portal.value2.title": "Pensé pour tes besoins",
+    "portal.value2.desc": "Pas de template générique : chaque fonctionnalité est conçue autour de ton projet.",
+    "portal.value3.title": "Un support qui reste",
+    "portal.value3.desc": "On ne disparaît pas après la livraison. Les mises à jour et corrections font partie du deal.",
+    "category.back": "Toutes les catégories",
+    "category.eyebrow": "Nouvel univers",
+    "category.badge": "En développement",
+    "category.panelTitle": "Cet univers se prépare.",
+    "category.panelDesc": "Nous construisons les outils et l'équipe pour cette catégorie. Elle ouvrira bientôt.",
+    "category.request": "Demander cette catégorie",
+    "category.explore": "Explorer les bots Discord",
+    "category.websites.note": "L'offre sites web se prépare : design, front-end et dashboards. Demande-la maintenant et on discutera de ton projet.",
+    "category.apps.note": "Les apps sur mesure arrivent : automatisations, outils internes et APIs. Dis-nous ce dont tu as besoin et on l'explorera avec toi.",
+    "category.minecraft.note": "L'univers Minecraft se prépare : serveurs, plugins et événements sur mesure. Demande-le pour être parmi les premiers.",
 
     "hero.badge": "Développement Discord sur mesure",
     "hero.title1": "Des bots Discord",
@@ -233,12 +329,12 @@ const I18N = {
     "faq.q3": "Quels moyens de paiement acceptez-vous ?",
     "faq.a3": "PayPal, virement bancaire et cryptomonnaies.",
 
-    "contact.title": "Prêt à donner vie à votre bot ?",
-    "contact.sub": "Connecte-toi avec Discord puis décris ton projet : on ouvre un ticket et on te répond sous 24h.",
-    "contact.startBtn": "Créer mon bot",
+    "contact.title": "Prêt à lancer ton projet ?",
+    "contact.sub": "Connecte-toi avec Discord puis décris ce que tu veux créer : on ouvre un ticket et on te répond sous 24h.",
+    "contact.startBtn": "Lancer un projet",
     "contact.connectedWith": "Connecté avec Discord",
     "contact.guestBtn": "Se connecter avec Discord",
-    "contact.titlePh": "Titre du bot (ex : Bot de modération)",
+    "contact.titlePh": "Titre du projet (ex : Bot Discord, site web)",
     "contact.msgPh": "Décris ton projet, tes besoins…",
     "contact.submit": "Envoyer",
     "contact.sending": "Envoi en cours…",
@@ -357,6 +453,7 @@ function applyLang(newLang) {
   } catch (_) {}
   applyI18n();
   updateContactForm();
+  updateGenericViewText();
   if (typeof restartChatDemo === "function" && restartChatDemo) restartChatDemo();
 }
 
@@ -391,6 +488,136 @@ navLinks.querySelectorAll("a").forEach((a) =>
     navLinks.classList.remove("open");
   })
 );
+
+/* ============================================================
+   PORTAL VIEWS — home, Discord universe and future categories.
+   The header and login remain available in every view.
+   ============================================================ */
+const GENERIC_VIEWS = {
+  websites: {
+    icon: "🌐",
+    titleKey: "portal.websites.title",
+    descKey: "portal.websites.desc",
+    tagsKey: "portal.websites.tags",
+    noteKey: "category.websites.note",
+  },
+  apps: {
+    icon: "🧩",
+    titleKey: "portal.apps.title",
+    descKey: "portal.apps.desc",
+    tagsKey: "portal.apps.tags",
+    noteKey: "category.apps.note",
+  },
+  minecraft: {
+    icon: "⛏️",
+    titleKey: "portal.minecraft.title",
+    descKey: "portal.minecraft.desc",
+    tagsKey: "portal.minecraft.tags",
+    noteKey: "category.minecraft.note",
+  },
+};
+
+const SECTION_VIEWS = {
+  services: "discord",
+  demo: "discord",
+  process: "discord",
+  faq: "discord",
+};
+
+let currentView = "home";
+
+function renderGenericView(category) {
+  const config = GENERIC_VIEWS[category];
+  if (!config) return;
+  const icon = document.getElementById("categoryIcon");
+  const title = document.getElementById("categoryTitle");
+  const desc = document.getElementById("categoryDesc");
+  const tags = document.getElementById("categoryTags");
+  const note = document.getElementById("categoryPanelDesc");
+  if (icon) icon.textContent = config.icon;
+  if (title) title.textContent = t(config.titleKey);
+  if (desc) desc.textContent = t(config.descKey);
+  if (note) note.textContent = t(config.noteKey);
+  if (tags) {
+    tags.innerHTML = t(config.tagsKey)
+      .split("|")
+      .map((tag) => `<span>${esc(tag.trim())}</span>`)
+      .join("");
+  }
+}
+
+function updateGenericViewText() {
+  if (GENERIC_VIEWS[currentView]) renderGenericView(currentView);
+}
+
+function showView(name, options) {
+  const opts = options || {};
+  const category = GENERIC_VIEWS[name] ? name : null;
+  const viewName = name === "home" || name === "discord" ? name : "generic";
+  document.querySelectorAll(".view").forEach((view) => {
+    view.classList.toggle("is-hidden", view.id !== `view-${viewName}`);
+  });
+  if (category) renderGenericView(category);
+  currentView = name;
+  document.querySelectorAll("[data-nav]").forEach((link) => {
+    link.classList.toggle(
+      "is-active",
+      link.dataset.nav === (viewName === "generic" ? category : viewName)
+    );
+  });
+  if (history.replaceState) {
+    history.replaceState(null, "", `#${opts.hash || opts.scrollTo || name}`);
+  }
+  requestAnimationFrame(() => {
+    if (opts.scrollTo) {
+      const target = document.getElementById(opts.scrollTo);
+      if (target) {
+        target.scrollIntoView({
+          behavior: opts.instant ? "auto" : "smooth",
+          block: "start",
+        });
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: opts.instant ? "auto" : "smooth" });
+    }
+    onScroll();
+  });
+}
+
+document.addEventListener("click", (event) => {
+  const link = event.target.closest("[data-view-link]");
+  if (!link) return;
+  event.preventDefault();
+  showView(link.dataset.viewLink, { scrollTo: link.dataset.scroll });
+});
+
+window.addEventListener("hashchange", () => {
+  const hash = location.hash.replace("#", "");
+  if (!hash) return;
+  if (hash === "home" || hash === "discord" || GENERIC_VIEWS[hash]) {
+    showView(hash, { instant: true });
+  } else if (SECTION_VIEWS[hash]) {
+    showView(SECTION_VIEWS[hash], { scrollTo: hash, instant: true });
+  } else if (hash === "contact") {
+    const target = document.getElementById("contact");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+});
+
+(function restoreInitialView() {
+  const hash = location.hash.replace("#", "");
+  if (SECTION_VIEWS[hash]) {
+    showView(SECTION_VIEWS[hash], { scrollTo: hash, instant: true });
+  } else if (hash === "discord" || GENERIC_VIEWS[hash]) {
+    showView(hash, { instant: true });
+  } else if (hash === "contact") {
+    showView("home", { scrollTo: "contact", instant: true });
+  } else {
+    showView("home", { instant: true });
+  }
+})();
 
 /* ---------- Reveal on scroll ---------- */
 const revealObserver = new IntersectionObserver(

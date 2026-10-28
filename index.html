@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title data-i18n="meta.title">M_N_M_S Bot — Custom Discord bots</title>
-  <meta name="description" content="Custom, powerful and reliable Discord bots. Moderation, economy, music, tickets and more. Fast delivery." />
+  <title data-i18n="meta.title">M_N_M_S — Discord bots, websites &amp; custom apps</title>
+  <meta name="description" content="M_N_M_S builds custom Discord bots, websites and apps. One studio, many ways to bring your project to life." />
   <meta name="theme-color" content="#04040a" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -37,17 +37,18 @@
 
   <header class="nav" id="nav">
     <div class="container nav__inner">
-      <a href="#" class="brand" data-magnetic>
+      <a href="#home" class="brand" data-magnetic data-view-link="home">
         <span class="brand__logo">
           <svg viewBox="0 0 24 24" fill="none"><path d="M4 6c4-1.5 12-1.5 16 0 1.5 3 2.5 7 2.5 10.5-2 2.5-5 3.5-5 3.5l-1-1.7c1.2-.4 2-.9 2-.9C14.5 19 12 19 12 19s-2.5 0-6.5-1.6c0 0 .8.5 2 .9L6.5 20S3.5 19 1.5 16.5C1.5 13 2.5 9 4 6Z" fill="currentColor"/><circle cx="9" cy="13" r="1.6" fill="#05060a"/><circle cx="15" cy="13" r="1.6" fill="#05060a"/></svg>
         </span>
           <span class="brand__text">M_N_M_S</span>
       </a>
       <nav class="nav__links" id="navLinks">
-        <a href="#services" data-magnetic data-i18n="nav.services">Services</a>
-        <a href="#demo" data-magnetic data-i18n="nav.demo">Demo</a>
-        <a href="#process" data-magnetic data-i18n="nav.process">Process</a>
-        <a href="#faq" data-magnetic data-i18n="nav.faq">FAQ</a>
+        <a href="#home" data-magnetic data-view-link="home" data-nav="home" data-i18n="nav.home">Home</a>
+        <a href="#discord" data-magnetic data-view-link="discord" data-nav="discord" data-i18n="nav.discord">Discord bots</a>
+        <a href="#websites" data-magnetic data-view-link="websites" data-nav="websites" data-i18n="nav.websites">Websites</a>
+        <a href="#apps" data-magnetic data-view-link="apps" data-nav="apps" data-i18n="nav.apps">Apps</a>
+        <a href="#faq" data-magnetic data-view-link="discord" data-scroll="faq" data-i18n="nav.faq">FAQ</a>
         <a href="#contact" data-magnetic data-i18n="nav.contact">Contact</a>
       </nav>
       <div class="nav__actions">
@@ -66,6 +67,114 @@
   </header>
 
   <main>
+    <section id="view-home" class="view view--home">
+      <div class="portal-hero">
+        <div class="container">
+          <span class="badge"><span class="dot"></span> <span data-i18n="portal.badge">Independent digital studio</span></span>
+          <h1 class="portal-hero__title">
+            <span data-i18n="portal.title1">One studio.</span><br />
+            <span class="grad" data-i18n="portal.title2">Many ways to build.</span>
+          </h1>
+          <p class="portal-hero__sub" data-i18n="portal.sub">
+            Discord bots are where we started. Websites, custom apps and new worlds are next.
+            Choose a universe and tell us what you want to create.
+          </p>
+          <div class="hero__actions">
+            <a href="#discord" class="btn btn--primary btn--lg" data-magnetic data-view-link="discord"><span data-i18n="portal.cta1">Explore Discord bots</span> <span class="arrow">→</span></a>
+            <a href="#contact" class="btn btn--glass btn--lg" data-magnetic><span data-i18n="portal.cta2">Start a project</span></a>
+          </div>
+          <div class="portal-meta">
+            <span data-i18n="portal.meta1">⚡ Fast delivery</span>
+            <span data-i18n="portal.meta2">🧩 Fully custom</span>
+            <span data-i18n="portal.meta3">🤝 Long-term support</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section section--tight">
+        <div class="container">
+          <div class="section__head reveal">
+            <span class="eyebrow" data-i18n="portal.eyebrow">What we build</span>
+            <h2 class="section__title" data-i18n="portal.title">Pick your universe</h2>
+            <p class="section__sub" data-i18n="portal.subtitle">Each category has its own tools, expertise and possibilities. More are coming.</p>
+          </div>
+
+          <div class="portal-grid">
+            <a href="#discord" class="portal-card portal-card--featured reveal" data-view-link="discord">
+              <span class="portal-card__glow"></span>
+              <span class="portal-card__top">
+                <span class="portal-card__icon">🤖</span>
+                <span class="portal-card__status portal-card__status--live" data-i18n="portal.status.live">Available now</span>
+              </span>
+              <h3 data-i18n="portal.discord.title">Discord bots</h3>
+              <p data-i18n="portal.discord.desc">Moderation, tickets, XP, anti-raid and custom features built for your community.</p>
+              <span class="portal-card__tags"><span>Moderation</span><span>Tickets</span><span>XP</span><span>Anti-raid</span></span>
+              <span class="portal-card__link" data-i18n="portal.open">Open this universe →</span>
+            </a>
+
+            <a href="#websites" class="portal-card reveal" data-view-link="websites">
+              <span class="portal-card__glow"></span>
+              <span class="portal-card__top">
+                <span class="portal-card__icon">🌐</span>
+                <span class="portal-card__status" data-i18n="portal.status.soon">Coming soon</span>
+              </span>
+              <h3 data-i18n="portal.websites.title">Websites</h3>
+              <p data-i18n="portal.websites.desc">Landing pages, dashboards and web experiences with a strong identity.</p>
+              <span class="portal-card__tags"><span>UI / UX</span><span>Front-end</span><span>Dashboards</span></span>
+              <span class="portal-card__link" data-i18n="portal.discover">Discover →</span>
+            </a>
+
+            <a href="#apps" class="portal-card reveal" data-view-link="apps">
+              <span class="portal-card__glow"></span>
+              <span class="portal-card__top">
+                <span class="portal-card__icon">🧩</span>
+                <span class="portal-card__status" data-i18n="portal.status.soon">Coming soon</span>
+              </span>
+              <h3 data-i18n="portal.apps.title">Custom apps</h3>
+              <p data-i18n="portal.apps.desc">Tools, automations and APIs designed around the way you actually work.</p>
+              <span class="portal-card__tags"><span>Automation</span><span>APIs</span><span>Tools</span></span>
+              <span class="portal-card__link" data-i18n="portal.discover">Discover →</span>
+            </a>
+
+            <a href="#minecraft" class="portal-card reveal" data-view-link="minecraft">
+              <span class="portal-card__glow"></span>
+              <span class="portal-card__top">
+                <span class="portal-card__icon">⛏️</span>
+                <span class="portal-card__status" data-i18n="portal.status.soon">Coming soon</span>
+              </span>
+              <h3 data-i18n="portal.minecraft.title">Minecraft</h3>
+              <p data-i18n="portal.minecraft.desc">Servers, plugins and custom game systems for your next adventure.</p>
+              <span class="portal-card__tags"><span>Servers</span><span>Plugins</span><span>Events</span></span>
+              <span class="portal-card__link" data-i18n="portal.discover">Discover →</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="section section--tight">
+        <div class="container">
+          <div class="portal-values">
+            <article class="portal-value reveal">
+              <span class="portal-value__icon">⚡</span>
+              <h3 data-i18n="portal.value1.title">Fast, without cutting corners</h3>
+              <p data-i18n="portal.value1.desc">Clear milestones, quick feedback loops and a working preview before delivery.</p>
+            </article>
+            <article class="portal-value reveal">
+              <span class="portal-value__icon">🧠</span>
+              <h3 data-i18n="portal.value2.title">Built for your needs</h3>
+              <p data-i18n="portal.value2.desc">No generic template: every feature is designed around your project.</p>
+            </article>
+            <article class="portal-value reveal">
+              <span class="portal-value__icon">🛠️</span>
+              <h3 data-i18n="portal.value3.title">Support that stays</h3>
+              <p data-i18n="portal.value3.desc">We do not disappear after delivery. Updates and fixes are part of the deal.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="view-discord" class="view is-hidden">
     <section class="hero">
       <div class="container hero__inner">
         <div class="hero__text">
@@ -212,17 +321,40 @@
         </div>
       </div>
     </section>
+    </div>
+
+    <section id="view-generic" class="view is-hidden">
+      <div class="container category-hero">
+        <a href="#home" class="back-link" data-view-link="home"><span aria-hidden="true">←</span> <span data-i18n="category.back">All categories</span></a>
+        <span class="category-hero__icon" id="categoryIcon">🌐</span>
+        <span class="eyebrow" data-i18n="category.eyebrow">New universe</span>
+        <h1 class="category-hero__title" id="categoryTitle">Websites</h1>
+        <p class="category-hero__sub" id="categoryDesc"></p>
+        <div class="category-hero__tags" id="categoryTags"></div>
+      </div>
+      <div class="container">
+        <div class="category-panel reveal">
+          <span class="category-panel__badge" data-i18n="category.badge">In development</span>
+          <h2 id="categoryPanelTitle" data-i18n="category.panelTitle">This universe is being prepared.</h2>
+          <p id="categoryPanelDesc" data-i18n="category.panelDesc">We are building the tools and the team for this category. It will open soon.</p>
+          <div class="category-panel__actions">
+            <a href="#contact" class="btn btn--primary btn--lg" data-magnetic><span data-i18n="category.request">Request this category</span> <span class="arrow">→</span></a>
+            <a href="#discord" class="btn btn--glass btn--lg" data-magnetic data-view-link="discord"><span data-i18n="category.explore">Explore Discord bots</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section id="contact" class="section">
       <div class="container">
         <div class="cta reveal" data-tilt>
           <div class="cta__ring"></div>
           <div class="cta__glow"></div>
-          <h2 data-i18n="contact.title">Ready to bring your bot to life?</h2>
-          <p data-i18n="contact.sub">Log in with Discord then describe your project: we open a ticket and reply within 24h.</p>
+          <h2 data-i18n="contact.title">Ready to start your project?</h2>
+          <p data-i18n="contact.sub">Log in with Discord then describe what you want to build: we open a ticket and reply within 24h.</p>
 
           <div class="cta__actions" id="contactStart">
-            <button class="btn btn--primary btn--lg" id="openTicketForm" data-magnetic><span data-i18n="contact.startBtn">Create my bot</span> <span class="arrow">→</span></button>
+            <button class="btn btn--primary btn--lg" id="openTicketForm" data-magnetic><span data-i18n="contact.startBtn">Start a project</span> <span class="arrow">→</span></button>
           </div>
 
           <form class="contact-form is-hidden" id="contactForm" novalidate>
@@ -237,7 +369,7 @@
 
             <div class="form-fields" id="formFields">
               <div class="field">
-                <input type="text" id="cTitle" maxlength="100" data-i18n-ph="contact.titlePh" placeholder="Bot title (e.g. Moderation bot)" required />
+                <input type="text" id="cTitle" maxlength="100" data-i18n-ph="contact.titlePh" placeholder="Project title (e.g. Discord bot, website)" required />
               </div>
               <div class="field">
                 <textarea id="cMessage" maxlength="2000" rows="4" data-i18n-ph="contact.msgPh" placeholder="Describe your project, your needs…" required></textarea>
@@ -324,11 +456,11 @@
 
   <footer class="footer">
     <div class="container footer__inner">
-      <a href="#" class="brand brand--footer">
+      <a href="#home" class="brand brand--footer" data-view-link="home">
         <span class="brand__logo"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6c4-1.5 12-1.5 16 0 1.5 3 2.5 7 2.5 10.5-2 2.5-5 3.5-5 3.5l-1-1.7c1.2-.4 2-.9 2-.9C14.5 19 12 19 12 19s-2.5 0-6.5-1.6c0 0 .8.5 2 .9L6.5 20S3.5 19 1.5 16.5C1.5 13 2.5 9 4 6Z" fill="currentColor"/><circle cx="9" cy="13" r="1.6" fill="#05060a"/><circle cx="15" cy="13" r="1.6" fill="#05060a"/></svg></span>
           <span class="brand__text">M_N_M_S</span>
       </a>
-      <span>© <span id="year"></span> M_N_M_S Bot — <span data-i18n="footer.rights">All rights reserved.</span></span>
+      <span>© <span id="year"></span> M_N_M_S Studio — <span data-i18n="footer.rights">All rights reserved.</span></span>
     </div>
   </footer>
 
