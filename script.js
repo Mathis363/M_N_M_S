@@ -1259,13 +1259,13 @@ if (contactForm) {
           r = await new Promise((resolve, reject) => {
             xhr.open("POST", `${API_BASE}/api/contact`, true);
             xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.timeout = 20000;
+            xhr.timeout = 30000;
             xhr.onreadystatechange = function() {
               if (xhr.readyState === 4) {
                 resolve({
                   ok: xhr.status >= 200 && xhr.status < 300,
                   status: xhr.status,
-                  json: async () => { try { return JSON.parse(xhr.responseText || "{}"); } catch(e){ return {}; } },
+                  json: async () => { try { return JSON.parse(xhr.responseText || "{}"); } catch(err){ return {}; } },
                   text: async () => xhr.responseText || ""
                 });
               }
@@ -1275,7 +1275,7 @@ if (contactForm) {
             xhr.send(JSON.stringify(payload));
           });
         } catch (e2) {
-          throw e;
+          throw new Error("Failed to fetch");
         }
       }
       if (!r.ok) {
