@@ -1245,10 +1245,11 @@ if (contactForm) {
     }
     cat = (cat || "").toLowerCase();
     try {
+      const payload = { title: title, message: message, user: user, category: cat || "" };
       const r = await fetch(`${API_BASE}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: title, message: message, user: user, category: cat }),
+        body: JSON.stringify(payload),
         mode: "cors",
         credentials: "omit",
       });
