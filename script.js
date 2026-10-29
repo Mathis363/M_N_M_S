@@ -1254,12 +1254,15 @@ if (contactForm) {
           body: JSON.stringify(payload),
         });
       } catch (e) {
-        // Try with different approach
-        r = await fetch(`${API_BASE}/api/contact`, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify(payload),
-        });
+        try {
+          r = await fetch(`${API_BASE}/api/contact`, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(payload),
+          });
+        } catch (e2) {
+          throw e;
+        }
       }
       if (!r.ok) {
         let apiError = "http_" + r.status;
