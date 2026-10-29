@@ -1258,7 +1258,12 @@ if (contactForm) {
         try {
           const j = await r.json();
           if (j && j.error) apiError = j.error;
-        } catch (_) {}
+        } catch (_) {
+          try {
+            const t = await r.text();
+            if (t) apiError = t.substring(0, 100);
+          } catch (_) {}
+        }
         throw new Error(apiError);
       }
       if (statusEl) {
