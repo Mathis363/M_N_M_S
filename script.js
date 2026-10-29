@@ -1237,50 +1237,46 @@ if (contactForm) {
         } catch (_) {}
       }
     }
-    if (!cat) {
-      const body = document.body;
-      if (body) {
-        const bcat = body.getAttribute("data-contact-category") || "";
-        if (bcat) cat = bcat.toLowerCase();
+    cat = (cat || "").toLowerCase();
+    const payload = { title: title, message: message, user: user, category: cat };
+    let success = false;
+    try {
+      const resp = await fetch(`${API_BASE}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (resp.ok) {
+        success = true;
+      } else {
+        success = false;
+      }
+    } catch (e) {
+      try {
+        const xhr = new XMLHttpRequest();
+        await new Promise((resolve, reject) => {
+          xhr.open("POST", `${API_BASE}/api/contact`, true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.timeout = 15000;
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+              if (xhr.status >= 200 && xhr.status < 300) {
+                success = true;
+              } else {
+                success = false;
+              }
+              resolve();
+            }
+          };
+          xhr.ontimeout = () => resolve();
+          xhr.onerror = () => resolve();
+          xhr.send(JSON.stringify(payload));
+        });
+      } catch (e2) {
+        success = false;
       }
     }
-    cat = (cat || "").toLowerCase();
-    try {
-      const payload = { title: title, message: message, user: user, category: cat || "" };
-      let r;
-      try {
-        const resp = await fetch(`${API_BASE}/api/contact`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-        r = resp;
-      } catch (e) {
-        try {
-          const xhr = new XMLHttpRequest();
-          r = await new Promise((resolve, reject) => {
-            xhr.open("POST", `${API_BASE}/api/contact`, true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.timeout = 30000;
-            xhr.onreadystatechange = function() {
-              if (xhr.readyState === 4) {
-                resolve({
-                  ok: xhr.status >= 200 && xhr.status < 300,
-                  status: xhr.status,
-                  json: async () => { try { return JSON.parse(xhr.responseText || "{}"); } catch(err){ return {}; } },
-                  text: async () => xhr.responseText || ""
-                });
-              }
-            };
-            xhr.ontimeout = () => reject(new Error("timeout"));
-            xhr.onerror = () => reject(new Error("Failed to fetch"));
-            xhr.send(JSON.stringify(payload));
-          });
-        } catch (e2) {
-          throw e2;
-        }
-      }
-      if (!r.ok) {
+    if (success) {
         let apiError = "http_" + r.status;
         try {
           const j = await r.json();
@@ -1314,6 +1310,8 @@ if (contactForm) {
         const catInput = document.getElementById("cCategory");
         if (catInput) catInput.value = "";
       } catch (_) {}
+      if (submitBtn) submitBtn.disabled = false;
+      return;
       try {
         const catInput = document.getElementById("cCategory");
         if (catInput) catInput.value = "";
