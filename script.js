@@ -1250,8 +1250,6 @@ if (contactForm) {
       try {
         const resp = await fetch(`${API_BASE}/api/contact`, {
           method: "POST",
-          mode: "cors",
-          cache: "no-store",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
@@ -1278,18 +1276,7 @@ if (contactForm) {
             xhr.send(JSON.stringify(payload));
           });
         } catch (e2) {
-          // Last resort - try with no-cors and form data
-          const formData = new FormData();
-          formData.append("title", title);
-          formData.append("message", message);
-          formData.append("category", cat || "");
-          formData.append("user", JSON.stringify(user));
-          const resp2 = await fetch(`${API_BASE}/api/contact`, {
-            method: "POST",
-            mode: "no-cors",
-            body: formData,
-          });
-          r = { ok: true, status: 200, json: async () => ({ ok: true }), text: async () => "{}" };
+          throw e2;
         }
       }
       if (!r.ok) {
