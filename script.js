@@ -523,6 +523,89 @@ const SECTION_VIEWS = {
   process: "discord",
 };
 
+const CONTACT_CATEGORY_CONFIG = {
+  discord: {
+    title: "Discord bot project",
+    sub: "Tell us about your Discord bot: features, moderation, tickets, XP, anti-raid, etc. We open a dedicated Discord bot ticket.",
+    titlePh: "Bot project title (e.g. Custom moderation bot)",
+    msgPh: "Describe features, commands, roles, integrations, goals…",
+    category: "discord",
+  },
+  website: {
+    title: "Website project",
+    sub: "Tell us about your website: landing page, portfolio, dashboard, or full site. We open a dedicated website ticket.",
+    titlePh: "Website project title (e.g. Portfolio website)",
+    msgPh: "Describe pages, design/style, goals, content, features…",
+    category: "website",
+  },
+  websites: {
+    title: "Website project",
+    sub: "Tell us about your website: landing page, portfolio, dashboard, or full site. We open a dedicated website ticket.",
+    titlePh: "Website project title (e.g. Portfolio website)",
+    msgPh: "Describe pages, design/style, goals, content, features…",
+    category: "website",
+  },
+  apps: {
+    title: "Custom app project",
+    sub: "Tell us about your app/tool/API: what problem it solves and desired features. We open a dedicated app ticket.",
+    titlePh: "App project title (e.g. Internal dashboard tool)",
+    msgPh: "Describe functionality, users, data, integrations, tech preferences…",
+    category: "apps",
+  },
+  app: {
+    title: "Custom app project",
+    sub: "Tell us about your app/tool/API: what problem it solves and desired features. We open a dedicated app ticket.",
+    titlePh: "App project title (e.g. Internal dashboard tool)",
+    msgPh: "Describe functionality, users, data, integrations, tech preferences…",
+    category: "apps",
+  },
+  minecraft: {
+    title: "Minecraft project",
+    sub: "Tell us about your Minecraft server/plugin/system: ideas, gameplay, features. We open a dedicated Minecraft ticket.",
+    titlePh: "Minecraft project title (e.g. Custom plugins)",
+    msgPh: "Describe server type, version, plugins needed, features, ideas…",
+    category: "minecraft",
+  },
+};
+
+function applyContactCategory(cat) {
+  const c = (cat || "").toString().toLowerCase();
+  const cfg = CONTACT_CATEGORY_CONFIG[c];
+  const titleEl = document.getElementById("contactViewTitle");
+  const subEl = document.getElementById("contactViewSub");
+  const titleInput = document.getElementById("cTitle");
+  const msgInput = document.getElementById("cMessage");
+  if (cfg) {
+    if (titleEl) titleEl.textContent = cfg.title;
+    if (subEl) subEl.textContent = cfg.sub;
+    if (titleInput && cfg.titlePh) {
+      titleInput.placeholder = cfg.titlePh;
+      titleInput.setAttribute("data-i18n-ph", "");
+    }
+    if (msgInput && cfg.msgPh) {
+      msgInput.placeholder = cfg.msgPh;
+      msgInput.setAttribute("data-i18n-ph", "");
+    }
+    try {
+      localStorage.setItem("mdz_contact_cat", cfg.category);
+    } catch (_) {}
+    return cfg.category;
+  } else {
+    if (titleEl) titleEl.textContent = t("contact.title");
+    if (subEl) subEl.textContent = t("contact.sub");
+    if (titleInput) {
+      titleInput.placeholder = t("contact.titlePh");
+    }
+    if (msgInput) {
+      msgInput.placeholder = t("contact.msgPh");
+    }
+    try {
+      localStorage.setItem("mdz_contact_cat", "");
+    } catch (_) {}
+    return "";
+  }
+}
+
 let currentView = "home";
 
 function renderGenericView(category) {
@@ -551,10 +634,22 @@ function updateGenericViewText() {
 
 function showView(name, options) {
   const opts = options || {};
-  const category = GENERIC_VIEWS[name] ? name : null;
+  let rawName = name;
+  let queryCat = null;
+  if (typeof rawName === "string" && rawName.includes("?")) {
+    const [base, q] = rawName.split("?");
+    rawName = base;
+    try {
+      const params = new URLSearchParams(q);
+      queryCat = params.get("category") || params.get("cat");
+    } catch (_) {
+      queryCat = null;
+    }
+  }
+  const category = GENERIC_VIEWS[rawName] ? rawName : null;
   const viewName =
-    name === "home" || name === "discord" || name === "faq" || name === "contact"
-      ? name
+    rawName === "home" || rawName === "discord" || rawName === "faq" || rawName === "contact"
+      ? rawName
       : "generic";
   document.querySelectorAll(".view").forEach((view) => {
     view.classList.toggle("is-hidden", view.id !== `view-${viewName}`);
@@ -565,6 +660,9 @@ function showView(name, options) {
         view.classList.add("is-hidden");
       }
     });
+    if (viewName === "contact") {
+      applyContactCategory(queryCat);
+    }
   }
   if (category) renderGenericView(category);
   currentView = name;
@@ -574,8 +672,9 @@ function showView(name, options) {
     link.classList.toggle("is-active", targetNav && link.dataset.nav === targetNav);
   });
   if (history.replaceState) {
-    const hash = opts.hash || (viewName === "faq" || viewName === "contact" ? viewName : opts.scrollTo || name);
-    history.replaceState(null, "", `#${hash}`);
+    const hashBase = opts.hash || (viewName === "faq" || viewName === "contact" ? viewName : opts.scrollTo || rawName);
+    const finalHash = queryCat && viewName === "contact" ? `${hashBase}?category=${encodeURIComponent(queryCat)}` : hashBase;
+    history.replaceState(null, "", `#${finalHash}`);
   }
   requestAnimationFrame(() => {
     if (opts.scrollTo) {
@@ -603,7 +702,7 @@ document.addEventListener("click", (event) => {
 window.addEventListener("hashchange", () => {
   const hash = location.hash.replace("#", "");
   if (!hash) return;
-  if (hash === "home" || hash === "discord" || hash === "faq" || hash === "contact" || GENERIC_VIEWS[hash]) {
+  if (hash === "home" || hash === "discord" || hash === "faq" || hash.startsWith("contact") || GENERIC_VIEWS[hash] || GENERIC_VIEWS[hash.split("?")[0]]) {
     showView(hash, { instant: true });
   } else if (SECTION_VIEWS[hash]) {
     showView(SECTION_VIEWS[hash], { scrollTo: hash, instant: true });
@@ -614,7 +713,7 @@ window.addEventListener("hashchange", () => {
   const hash = location.hash.replace("#", "");
   if (SECTION_VIEWS[hash]) {
     showView(SECTION_VIEWS[hash], { scrollTo: hash, instant: true });
-  } else if (hash === "discord" || hash === "faq" || hash === "contact" || GENERIC_VIEWS[hash]) {
+  } else if (hash === "discord" || hash === "faq" || hash.startsWith("contact") || GENERIC_VIEWS[hash] || GENERIC_VIEWS[hash.split("?")[0]]) {
     showView(hash, { instant: true });
   } else {
     showView("home", { instant: true });
@@ -1081,11 +1180,25 @@ if (contactForm) {
       statusEl.textContent = t("contact.sending");
     }
 
+    let cat = "";
+    try {
+      cat = localStorage.getItem("mdz_contact_cat") || "";
+    } catch (_) {
+      cat = "";
+    }
+    if (!cat) {
+      const h = location.hash || "";
+      if (h.includes("category=")) {
+        try {
+          cat = (new URLSearchParams(h.split("?")[1]).get("category") || "").toLowerCase();
+        } catch (_) {}
+      }
+    }
     try {
       const r = await fetch(`${API_BASE}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, message, user }),
+        body: JSON.stringify({ title, message, user, category: cat }),
       });
       if (!r.ok) {
         let apiError = "http_" + r.status;
@@ -1104,6 +1217,12 @@ if (contactForm) {
       } catch (_) {}
       if (contactStart) contactStart.classList.remove("is-hidden");
       if (contactForm) contactForm.classList.add("is-hidden");
+      try {
+        localStorage.setItem("mdz_contact_cat", "");
+      } catch (_) {}
+      try {
+        applyContactCategory("");
+      } catch (_) {}
     } catch (err) {
       if (!statusEl) {
         // ignore
