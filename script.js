@@ -1186,13 +1186,8 @@ if (contactForm) {
   const submitBtn = contactForm.querySelector("button[type=submit]");
 
   if (contactForm) {
-    contactForm.removeAttribute("action");
-    contactForm.onsubmit = function(e) {
-      try { e.preventDefault(); } catch(_) {}
-      try { e.stopPropagation(); } catch(_) {}
-      try { if (e.stopImmediatePropagation) e.stopImmediatePropagation(); } catch(_) {}
-      return false;
-    };
+    contactForm.setAttribute("action", "javascript:void(0);");
+    contactForm.onsubmit = null;
     contactForm.addEventListener("submit", async function(e) {
       try { e.preventDefault(); } catch(_) {}
       try { e.stopPropagation(); } catch(_) {}
