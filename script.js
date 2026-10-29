@@ -1286,8 +1286,10 @@ if (contactForm) {
           if (j && j.error) apiError = j.error;
         } catch (_) {
           try {
-            const t = await r.text();
-            if (t) apiError = t.substring(0, 100);
+            if (r.text) {
+              const t = await r.text();
+              if (t) apiError = t.substring(0, 100);
+            }
           } catch (_) {}
         }
         throw new Error(apiError);
