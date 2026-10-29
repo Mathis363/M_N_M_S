@@ -344,7 +344,7 @@
               <button class="btn btn--primary btn--lg" id="openTicketForm" data-magnetic><span data-i18n="contact.startBtn">Start a project</span> <span class="arrow">→</span></button>
             </div>
 
-            <form class="contact-form is-hidden" id="contactForm" novalidate action="https://m-n-m-s-bot.onrender.com/api/contact" method="post" enctype="application/json">
+            <form class="contact-form is-hidden" id="contactForm" novalidate onsubmit="return false;">
               <input type="hidden" id="cCategory" value="" />
               <div class="form-user is-hidden" id="formUser">
                 <img id="formUserAva" alt="avatar" />
