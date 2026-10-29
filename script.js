@@ -1250,6 +1250,7 @@ if (contactForm) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: title, message: message, user: user, category: cat }),
         mode: "cors",
+        credentials: "omit",
       });
       if (!r.ok) {
         let apiError = "http_" + r.status;
