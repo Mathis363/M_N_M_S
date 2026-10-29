@@ -1261,7 +1261,27 @@ if (contactForm) {
             body: JSON.stringify(payload),
           });
         } catch (e2) {
-          throw e;
+          try {
+            const xhr = new XMLHttpRequest();
+            r = await new Promise((resolve, reject) => {
+              xhr.open("POST", `${API_BASE}/api/contact`, true);
+              xhr.setRequestHeader("Content-Type", "application/json");
+              xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                  resolve({
+                    ok: xhr.status >= 200 && xhr.status < 300,
+                    status: xhr.status,
+                    json: async () => JSON.parse(xhr.responseText || "{}"),
+                    text: async () => xhr.responseText || ""
+                  });
+                }
+              };
+              xhr.onerror = reject;
+              xhr.send(JSON.stringify(payload));
+            });
+          } catch (e3) {
+            throw e;
+          }
         }
       }
       if (!r.ok) {
