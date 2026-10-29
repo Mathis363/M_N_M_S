@@ -1246,11 +1246,21 @@ if (contactForm) {
     cat = (cat || "").toLowerCase();
     try {
       const payload = { title: title, message: message, user: user, category: cat || "" };
-      const r = await fetch(`${API_BASE}/api/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      let r;
+      try {
+        r = await fetch(`${API_BASE}/api/contact`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      } catch (e) {
+        // Try with different approach
+        r = await fetch(`${API_BASE}/api/contact`, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify(payload),
+        });
+      }
       if (!r.ok) {
         let apiError = "http_" + r.status;
         try {
