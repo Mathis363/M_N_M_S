@@ -640,10 +640,18 @@ function showView(name, options) {
     const [base, q] = rawName.split("?");
     rawName = base;
     try {
-      const params = new URLSearchParams(q);
+      const params = new URLSearchParams(q.replace(/^\?/, ""));
       queryCat = params.get("category") || params.get("cat");
     } catch (_) {
       queryCat = null;
+    }
+  } else if (typeof location !== "undefined" && location.hash) {
+    const h = location.hash.replace("#", "");
+    if (h.startsWith("contact?")) {
+      try {
+        const params = new URLSearchParams(h.split("?")[1]);
+        queryCat = params.get("category") || params.get("cat");
+      } catch (_) {}
     }
   }
   const category = GENERIC_VIEWS[rawName] ? rawName : null;
@@ -662,6 +670,9 @@ function showView(name, options) {
     });
     if (viewName === "contact") {
       applyContactCategory(queryCat);
+      try {
+        if (queryCat) localStorage.setItem("mdz_contact_cat", queryCat.toLowerCase());
+      } catch (_) {}
     }
   }
   if (category) renderGenericView(category);
@@ -673,7 +684,17 @@ function showView(name, options) {
   });
   if (history.replaceState) {
     const hashBase = opts.hash || (viewName === "faq" || viewName === "contact" ? viewName : opts.scrollTo || rawName);
-    const finalHash = queryCat && viewName === "contact" ? `${hashBase}?category=${encodeURIComponent(queryCat)}` : hashBase;
+    const qc = queryCat || (function(){
+      try {
+        const h = location.hash.replace("#","");
+        if (h.startsWith("contact?")) {
+          const p = new URLSearchParams(h.split("?")[1]);
+          return p.get("category") || p.get("cat");
+        }
+      } catch(_) {}
+      return null;
+    })();
+    const finalHash = qc && viewName === "contact" ? `${hashBase}?category=${encodeURIComponent(qc)}` : hashBase;
     history.replaceState(null, "", `#${finalHash}`);
   }
   requestAnimationFrame(() => {
@@ -1190,7 +1211,7 @@ if (contactForm) {
       const h = location.hash || "";
       if (h.includes("category=")) {
         try {
-          cat = (new URLSearchParams(h.split("?")[1]).get("category") || "").toLowerCase();
+          cat = (new URLSearchParams((h.split("?")[1] || "").replace(/^\?/, "")).get("category") || "").toLowerCase();
         } catch (_) {}
       }
     }
