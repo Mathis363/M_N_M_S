@@ -521,7 +521,6 @@ const SECTION_VIEWS = {
   services: "discord",
   demo: "discord",
   process: "discord",
-  faq: "discord",
 };
 
 let currentView = "home";
@@ -553,20 +552,30 @@ function updateGenericViewText() {
 function showView(name, options) {
   const opts = options || {};
   const category = GENERIC_VIEWS[name] ? name : null;
-  const viewName = name === "home" || name === "discord" ? name : "generic";
+  const viewName =
+    name === "home" || name === "discord" || name === "faq" || name === "contact"
+      ? name
+      : "generic";
   document.querySelectorAll(".view").forEach((view) => {
     view.classList.toggle("is-hidden", view.id !== `view-${viewName}`);
   });
+  if (viewName === "faq" || viewName === "contact") {
+    document.querySelectorAll(".view").forEach((view) => {
+      if (view.id !== `view-${viewName}` && view.id !== "view-home" && view.id !== "view-discord" && view.id !== "view-generic") {
+        view.classList.add("is-hidden");
+      }
+    });
+  }
   if (category) renderGenericView(category);
   currentView = name;
   document.querySelectorAll("[data-nav]").forEach((link) => {
-    link.classList.toggle(
-      "is-active",
-      link.dataset.nav === (viewName === "generic" ? category : viewName)
-    );
+    const targetNav =
+      viewName === "generic" ? category : viewName === "faq" ? "faq" : viewName === "contact" ? null : viewName;
+    link.classList.toggle("is-active", targetNav && link.dataset.nav === targetNav);
   });
   if (history.replaceState) {
-    history.replaceState(null, "", `#${opts.hash || opts.scrollTo || name}`);
+    const hash = opts.hash || (viewName === "faq" || viewName === "contact" ? viewName : opts.scrollTo || name);
+    history.replaceState(null, "", `#${hash}`);
   }
   requestAnimationFrame(() => {
     if (opts.scrollTo) {
@@ -594,15 +603,10 @@ document.addEventListener("click", (event) => {
 window.addEventListener("hashchange", () => {
   const hash = location.hash.replace("#", "");
   if (!hash) return;
-  if (hash === "home" || hash === "discord" || GENERIC_VIEWS[hash]) {
+  if (hash === "home" || hash === "discord" || hash === "faq" || hash === "contact" || GENERIC_VIEWS[hash]) {
     showView(hash, { instant: true });
   } else if (SECTION_VIEWS[hash]) {
     showView(SECTION_VIEWS[hash], { scrollTo: hash, instant: true });
-  } else if (hash === "contact") {
-    const target = document.getElementById("contact");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
   }
 });
 
@@ -610,10 +614,8 @@ window.addEventListener("hashchange", () => {
   const hash = location.hash.replace("#", "");
   if (SECTION_VIEWS[hash]) {
     showView(SECTION_VIEWS[hash], { scrollTo: hash, instant: true });
-  } else if (hash === "discord" || GENERIC_VIEWS[hash]) {
+  } else if (hash === "discord" || hash === "faq" || hash === "contact" || GENERIC_VIEWS[hash]) {
     showView(hash, { instant: true });
-  } else if (hash === "contact") {
-    showView("home", { scrollTo: "contact", instant: true });
   } else {
     showView("home", { instant: true });
   }
@@ -1034,14 +1036,15 @@ function updateContactForm() {
 
 if (openTicketBtn) {
   openTicketBtn.addEventListener("click", () => {
-    contactStart.classList.add("is-hidden");
-    contactForm.classList.remove("is-hidden");
+    if (contactStart) contactStart.classList.add("is-hidden");
+    if (contactForm) contactForm.classList.remove("is-hidden");
     updateContactForm();
   });
 }
 
-const formLoginBtn = document.getElementById("formLogin");
-if (formLoginBtn) formLoginBtn.addEventListener("click", openModal);
+document.querySelectorAll("#formLogin").forEach((btn) =>
+  btn.addEventListener("click", openModal)
+);
 
 if (contactForm) {
   const statusEl = document.getElementById("formStatus");
@@ -1052,23 +1055,31 @@ if (contactForm) {
 
     const raw = localStorage.getItem("mdz_user");
     if (!raw) {
-      statusEl.className = "form-status err";
-      statusEl.textContent = t("contact.needLogin");
+      if (statusEl) {
+        statusEl.className = "form-status err";
+        statusEl.textContent = t("contact.needLogin");
+      }
       return;
     }
     const user = JSON.parse(raw);
-    const title = document.getElementById("cTitle").value.trim();
-    const message = document.getElementById("cMessage").value.trim();
+    const titleInput = document.getElementById("cTitle");
+    const messageInput = document.getElementById("cMessage");
+    const title = titleInput ? titleInput.value.trim() : "";
+    const message = messageInput ? messageInput.value.trim() : "";
 
     if (!title || !message) {
-      statusEl.className = "form-status err";
-      statusEl.textContent = t("contact.fill");
+      if (statusEl) {
+        statusEl.className = "form-status err";
+        statusEl.textContent = t("contact.fill");
+      }
       return;
     }
 
-    submitBtn.disabled = true;
-    statusEl.className = "form-status";
-    statusEl.textContent = t("contact.sending");
+    if (submitBtn) submitBtn.disabled = true;
+    if (statusEl) {
+      statusEl.className = "form-status";
+      statusEl.textContent = t("contact.sending");
+    }
 
     try {
       const r = await fetch(`${API_BASE}/api/contact`, {
@@ -1084,20 +1095,30 @@ if (contactForm) {
         } catch (_) {}
         throw new Error(apiError);
       }
-      statusEl.className = "form-status ok";
-      statusEl.textContent = t("contact.ok");
-      contactForm.reset();
+      if (statusEl) {
+        statusEl.className = "form-status ok";
+        statusEl.textContent = t("contact.ok");
+      }
+      try {
+        contactForm.reset();
+      } catch (_) {}
+      if (contactStart) contactStart.classList.remove("is-hidden");
+      if (contactForm) contactForm.classList.add("is-hidden");
     } catch (err) {
-      statusEl.className = "form-status err";
-      if (err.message === "no_guild") {
+      if (!statusEl) {
+        // ignore
+      } else if (err.message === "no_guild") {
+        statusEl.className = "form-status err";
         statusEl.textContent = t("contact.noGuild");
       } else if (err.message === "already_open") {
+        statusEl.className = "form-status err";
         statusEl.textContent = t("contact.alreadyOpen");
       } else {
+        statusEl.className = "form-status err";
         statusEl.textContent = tReplace("contact.error", { msg: err.message, api: API_BASE });
       }
     } finally {
-      submitBtn.disabled = false;
+      if (submitBtn) submitBtn.disabled = false;
     }
   });
 }

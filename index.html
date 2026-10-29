@@ -48,8 +48,8 @@
         <a href="#discord" data-magnetic data-view-link="discord" data-nav="discord" data-i18n="nav.discord">Discord bots</a>
         <a href="#websites" data-magnetic data-view-link="websites" data-nav="websites" data-i18n="nav.websites">Websites</a>
         <a href="#apps" data-magnetic data-view-link="apps" data-nav="apps" data-i18n="nav.apps">Apps</a>
-        <a href="#faq" data-magnetic data-view-link="discord" data-scroll="faq" data-i18n="nav.faq">FAQ</a>
-        <a href="#contact" data-magnetic data-i18n="nav.contact">Contact</a>
+        <a href="#faq" data-magnetic data-view-link="faq" data-i18n="nav.faq">FAQ</a>
+        <a href="#contact" data-magnetic data-view-link="contact" data-i18n="nav.contact">Contact</a>
       </nav>
       <div class="nav__actions">
         <button class="btn btn--glass btn--small is-hidden" id="adminBtn" data-magnetic>
@@ -60,7 +60,7 @@
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M4 6c4-1.5 12-1.5 16 0 1.5 3 2.5 7 2.5 10.5-2 2.5-5 3.5-5 3.5l-1-1.7c1.2-.4 2-.9 2-.9C14.5 19 12 19 12 19s-2.5 0-6.5-1.6c0 0 .8.5 2 .9L6.5 20S3.5 19 1.5 16.5C1.5 13 2.5 9 4 6Z"/></svg>
           <span data-i18n="nav.login">Login</span>
         </button>
-        <a href="#contact" class="btn btn--primary btn--small" data-magnetic><span data-i18n="nav.start">Get started</span> <span class="arrow">→</span></a>
+        <a href="#contact" class="btn btn--primary btn--small" data-magnetic data-view-link="contact"><span data-i18n="nav.start">Get started</span> <span class="arrow">→</span></a>
         <button class="nav__burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
       </div>
     </div>
@@ -81,7 +81,7 @@
           </p>
           <div class="hero__actions">
             <a href="#discord" class="btn btn--primary btn--lg" data-magnetic data-view-link="discord"><span data-i18n="portal.cta1">Explore Discord bots</span> <span class="arrow">→</span></a>
-            <a href="#contact" class="btn btn--glass btn--lg" data-magnetic><span data-i18n="portal.cta2">Start a project</span></a>
+            <a href="#contact" class="btn btn--glass btn--lg" data-magnetic data-view-link="contact"><span data-i18n="portal.cta2">Start a project</span></a>
           </div>
           <div class="portal-meta">
             <span data-i18n="portal.meta1">⚡ Fast delivery</span>
@@ -188,7 +188,7 @@
             Moderation, economy, music, tickets, levels — your community deserves better.
           </p>
           <div class="hero__actions">
-            <a href="#contact" class="btn btn--primary btn--lg" data-magnetic><span data-i18n="hero.cta1">Start my project</span> <span class="arrow">→</span></a>
+            <a href="#contact" class="btn btn--primary btn--lg" data-magnetic data-view-link="contact"><span data-i18n="hero.cta1">Start my project</span> <span class="arrow">→</span></a>
             <a href="#demo" class="btn btn--glass btn--lg" data-magnetic><span data-i18n="hero.cta2">See the demo</span></a>
           </div>
           <div class="stats" id="stats">
@@ -308,20 +308,67 @@
       </div>
     </section>
 
-    <section id="faq" class="section section--tight">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="eyebrow" data-i18n="faq.eyebrow">FAQ</span>
-          <h2 class="section__title" data-i18n="faq.title">Frequently asked questions</h2>
-        </div>
-        <div class="faq">
-          <details class="reveal"><summary data-i18n="faq.q1">How long to receive my bot?</summary><p data-i18n="faq.a1">Usually 2 to 5 days depending on complexity. An express 48h service is available.</p></details>
-          <details class="reveal"><summary data-i18n="faq.q2">How does the site login work?</summary><p data-i18n-html="faq.a2">Click “Login”, a code appears, then type <code>/webcode &lt;code&gt;</code> on Discord to link your account.</p></details>
-          <details class="reveal"><summary data-i18n="faq.q3">What payment methods do you accept?</summary><p data-i18n="faq.a3">PayPal, bank transfer and cryptocurrencies.</p></details>
+    </div>
+
+    <section id="view-faq" class="view is-hidden">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="section__head reveal">
+            <a href="#home" class="back-link" data-view-link="home"><span aria-hidden="true">←</span> <span data-i18n="category.back">All categories</span></a>
+            <span class="eyebrow" data-i18n="faq.eyebrow">FAQ</span>
+            <h1 class="section__title" data-i18n="faq.title">Frequently asked questions</h1>
+          </div>
+          <div class="faq">
+            <details class="reveal"><summary data-i18n="faq.q1">How long to receive my bot?</summary><p data-i18n="faq.a1">Usually 2 to 5 days depending on complexity. An express 48h service is available.</p></details>
+            <details class="reveal"><summary data-i18n="faq.q2">How does the site login work?</summary><p data-i18n-html="faq.a2">Click “Login”, a code appears, then type <code>/webcode &lt;code&gt;</code> on Discord to link your account.</p></details>
+            <details class="reveal"><summary data-i18n="faq.q3">What payment methods do you accept?</summary><p data-i18n="faq.a3">PayPal, bank transfer and cryptocurrencies.</p></details>
+          </div>
         </div>
       </div>
     </section>
-    </div>
+
+    <section id="view-contact" class="view is-hidden">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="section__head reveal">
+            <a href="#home" class="back-link" data-view-link="home"><span aria-hidden="true">←</span> <span data-i18n="category.back">All categories</span></a>
+            <span class="eyebrow" data-i18n="nav.contact">Contact</span>
+            <h1 class="section__title" data-i18n="contact.title">Ready to start your project?</h1>
+            <p class="section__sub" data-i18n="contact.sub">Log in with Discord then describe what you want to build: we open a ticket and reply within 24h.</p>
+          </div>
+          <div class="cta reveal" data-tilt>
+            <div class="cta__ring"></div>
+            <div class="cta__glow"></div>
+
+            <div class="cta__actions" id="contactStart">
+              <button class="btn btn--primary btn--lg" id="openTicketForm" data-magnetic><span data-i18n="contact.startBtn">Start a project</span> <span class="arrow">→</span></button>
+            </div>
+
+            <form class="contact-form is-hidden" id="contactForm" novalidate>
+              <div class="form-user is-hidden" id="formUser">
+                <img id="formUserAva" alt="avatar" />
+                <div><strong id="formUserName">—</strong><small data-i18n="contact.connectedWith">Connected with Discord</small></div>
+              </div>
+
+              <div class="form-guest is-hidden" id="formGuest">
+                <button type="button" class="btn btn--glass btn--full" id="formLogin"><span data-i18n="contact.guestBtn">Log in with Discord</span></button>
+              </div>
+
+              <div class="form-fields" id="formFields">
+                <div class="field">
+                  <input type="text" id="cTitle" maxlength="100" data-i18n-ph="contact.titlePh" placeholder="Project title (e.g. Discord bot, website)" required />
+                </div>
+                <div class="field">
+                  <textarea id="cMessage" maxlength="2000" rows="4" data-i18n-ph="contact.msgPh" placeholder="Describe your project, your needs…" required></textarea>
+                </div>
+                <button type="submit" class="btn btn--primary btn--lg" data-magnetic><span data-i18n="contact.submit">Send</span> <span class="arrow">→</span></button>
+                <div class="form-status" id="formStatus" role="status"></div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section id="view-generic" class="view is-hidden">
       <div class="container category-hero">
@@ -338,14 +385,14 @@
           <h2 id="categoryPanelTitle" data-i18n="category.panelTitle">This universe is being prepared.</h2>
           <p id="categoryPanelDesc" data-i18n="category.panelDesc">We are building the tools and the team for this category. It will open soon.</p>
           <div class="category-panel__actions">
-            <a href="#contact" class="btn btn--primary btn--lg" data-magnetic><span data-i18n="category.request">Request this category</span> <span class="arrow">→</span></a>
+            <a href="#contact" class="btn btn--primary btn--lg" data-magnetic data-view-link="contact"><span data-i18n="category.request">Request this category</span> <span class="arrow">→</span></a>
             <a href="#discord" class="btn btn--glass btn--lg" data-magnetic data-view-link="discord"><span data-i18n="category.explore">Explore Discord bots</span></a>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="section">
+    <section id="contact" class="section is-hidden">
       <div class="container">
         <div class="cta reveal" data-tilt>
           <div class="cta__ring"></div>
