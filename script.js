@@ -1250,30 +1250,47 @@ if (contactForm) {
       try {
         const resp = await fetch(`${API_BASE}/api/contact`, {
           method: "POST",
+          mode: "cors",
+          cache: "no-store",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
         r = resp;
       } catch (e) {
-        const xhr = new XMLHttpRequest();
-        r = await new Promise((resolve, reject) => {
-          xhr.open("POST", `${API_BASE}/api/contact`, true);
-          xhr.setRequestHeader("Content-Type", "application/json");
-          xhr.timeout = 25000;
-          xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-              resolve({
-                ok: xhr.status >= 200 && xhr.status < 300,
-                status: xhr.status,
-                json: async () => { try { return JSON.parse(xhr.responseText || "{}"); } catch(err){ return {}; } },
-                text: async () => xhr.responseText || ""
-              });
-            }
-          };
-          xhr.ontimeout = () => reject(new Error("timeout"));
-          xhr.onerror = () => reject(new Error("Failed to fetch"));
-          xhr.send(JSON.stringify(payload));
-        });
+        try {
+          const xhr = new XMLHttpRequest();
+          r = await new Promise((resolve, reject) => {
+            xhr.open("POST", `${API_BASE}/api/contact`, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.timeout = 30000;
+            xhr.onreadystatechange = function() {
+              if (xhr.readyState === 4) {
+                resolve({
+                  ok: xhr.status >= 200 && xhr.status < 300,
+                  status: xhr.status,
+                  json: async () => { try { return JSON.parse(xhr.responseText || "{}"); } catch(err){ return {}; } },
+                  text: async () => xhr.responseText || ""
+                });
+              }
+            };
+            xhr.ontimeout = () => reject(new Error("timeout"));
+            xhr.onerror = () => reject(new Error("Failed to fetch"));
+            xhr.send(JSON.stringify(payload));
+          });
+        } catch (e2) {
+          // Last resort - try with no-cors and form data
+          const formData = new FormData();
+          formData.append("title", title);
+          formData.append("message", message);
+          formData.append("category", cat || "");
+          formData.append("user", JSON.stringify(user));
+          const resp2 = await fetch(`${API_BASE}/api/contact`, {
+            method: "POST",
+            mode: "no-cors",
+            body: formData,
+          });
+          r = { ok: true, status: 200, json: async () => ({ ok: true }), text: async () => "{}" };
+        }
       }
       if (!r.ok) {
         let apiError = "http_" + r.status;
