@@ -575,33 +575,38 @@ function applyContactCategory(cat) {
   const subEl = document.getElementById("contactViewSub");
   const titleInput = document.getElementById("cTitle");
   const msgInput = document.getElementById("cMessage");
+  const catInput = document.getElementById("cCategory");
   if (cfg) {
     if (titleEl) titleEl.textContent = cfg.title;
     if (subEl) subEl.textContent = cfg.sub;
     if (titleInput && cfg.titlePh) {
       titleInput.placeholder = cfg.titlePh;
-      titleInput.setAttribute("data-i18n-ph", "");
+      titleInput.removeAttribute("data-i18n-ph");
     }
     if (msgInput && cfg.msgPh) {
       msgInput.placeholder = cfg.msgPh;
-      msgInput.setAttribute("data-i18n-ph", "");
+      msgInput.removeAttribute("data-i18n-ph");
     }
     try {
       localStorage.setItem("mdz_contact_cat", cfg.category);
     } catch (_) {}
+    if (catInput) catInput.value = cfg.category;
     return cfg.category;
   } else {
     if (titleEl) titleEl.textContent = t("contact.title");
     if (subEl) subEl.textContent = t("contact.sub");
     if (titleInput) {
       titleInput.placeholder = t("contact.titlePh");
+      titleInput.setAttribute("data-i18n-ph", "contact.titlePh");
     }
     if (msgInput) {
       msgInput.placeholder = t("contact.msgPh");
+      msgInput.setAttribute("data-i18n-ph", "contact.msgPh");
     }
     try {
       localStorage.setItem("mdz_contact_cat", "");
     } catch (_) {}
+    if (catInput) catInput.value = "";
     return "";
   }
 }
@@ -649,7 +654,7 @@ function showView(name, options) {
     const h = location.hash.replace("#", "");
     if (h.startsWith("contact?")) {
       try {
-        const params = new URLSearchParams(h.split("?")[1]);
+        const params = new URLSearchParams(h.split("?")[1].replace(/^\?/, ""));
         queryCat = params.get("category") || params.get("cat");
       } catch (_) {}
     }
@@ -671,7 +676,14 @@ function showView(name, options) {
     if (viewName === "contact") {
       applyContactCategory(queryCat);
       try {
-        if (queryCat) localStorage.setItem("mdz_contact_cat", queryCat.toLowerCase());
+        if (queryCat) {
+          localStorage.setItem("mdz_contact_cat", queryCat.toLowerCase());
+          const catInput = document.getElementById("cCategory");
+          if (catInput) catInput.value = queryCat.toLowerCase();
+        } else {
+          const catInput = document.getElementById("cCategory");
+          if (catInput) catInput.value = localStorage.getItem("mdz_contact_cat") || "";
+        }
       } catch (_) {}
     }
   }
@@ -1203,9 +1215,15 @@ if (contactForm) {
 
     let cat = "";
     try {
-      cat = localStorage.getItem("mdz_contact_cat") || "";
-    } catch (_) {
-      cat = "";
+      const catInput = document.getElementById("cCategory");
+      if (catInput && catInput.value) cat = catInput.value;
+    } catch (_) {}
+    if (!cat) {
+      try {
+        cat = localStorage.getItem("mdz_contact_cat") || "";
+      } catch (_) {
+        cat = "";
+      }
     }
     if (!cat) {
       const h = location.hash || "";
@@ -1215,6 +1233,7 @@ if (contactForm) {
         } catch (_) {}
       }
     }
+    cat = (cat || "").toLowerCase();
     try {
       const r = await fetch(`${API_BASE}/api/contact`, {
         method: "POST",
@@ -1243,6 +1262,14 @@ if (contactForm) {
       } catch (_) {}
       try {
         applyContactCategory("");
+      } catch (_) {}
+      try {
+        const catInput = document.getElementById("cCategory");
+        if (catInput) catInput.value = "";
+      } catch (_) {}
+      try {
+        const catInput = document.getElementById("cCategory");
+        if (catInput) catInput.value = "";
       } catch (_) {}
     } catch (err) {
       if (!statusEl) {
