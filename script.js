@@ -1186,8 +1186,9 @@ if (contactForm) {
   const submitBtn = contactForm.querySelector("button[type=submit]");
 
   if (contactForm) {
-    contactForm.setAttribute("action", "javascript:void(0);");
-    contactForm.onsubmit = null;
+    contactForm.removeAttribute("action");
+    contactForm.removeAttribute("method");
+    contactForm.setAttribute("onsubmit", "return false;");
     contactForm.addEventListener("submit", async function(e) {
       try { e.preventDefault(); } catch(_) {}
       try { e.stopPropagation(); } catch(_) {}
