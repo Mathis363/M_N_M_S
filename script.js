@@ -1250,8 +1250,6 @@ if (contactForm) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-        mode: "cors",
-        credentials: "omit",
       });
       if (!r.ok) {
         let apiError = "http_" + r.status;
