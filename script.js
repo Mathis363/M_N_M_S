@@ -1186,9 +1186,9 @@ if (contactForm) {
   const submitBtn = contactForm.querySelector("button[type=submit]");
 
   contactForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    try { e.preventDefault(); } catch(_) {}
+    try { e.stopPropagation(); } catch(_) {}
+    try { if (e.stopImmediatePropagation) e.stopImmediatePropagation(); } catch(_) {}
 
     const raw = localStorage.getItem("mdz_user");
     if (!raw) {
