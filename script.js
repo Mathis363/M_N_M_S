@@ -1315,17 +1315,9 @@ if (contactForm) {
         if (catInput) catInput.value = "";
       } catch (_) {}
     } catch (err) {
-      if (!statusEl) {
-        // ignore
-      } else if (err.message === "no_guild") {
+      if (statusEl) {
         statusEl.className = "form-status err";
-        statusEl.textContent = t("contact.noGuild");
-      } else if (err.message === "already_open") {
-        statusEl.className = "form-status err";
-        statusEl.textContent = t("contact.alreadyOpen");
-      } else {
-        statusEl.className = "form-status err";
-        statusEl.textContent = tReplace("contact.error", { msg: err.message, api: API_BASE });
+        statusEl.textContent = tReplace("contact.error", { msg: err.message || "Failed", api: API_BASE });
       }
     } finally {
       if (submitBtn) submitBtn.disabled = false;
