@@ -1188,6 +1188,7 @@ if (contactForm) {
   contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     e.stopPropagation();
+    e.stopImmediatePropagation();
 
     const raw = localStorage.getItem("mdz_user");
     if (!raw) {
