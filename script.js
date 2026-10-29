@@ -1189,10 +1189,13 @@ if (contactForm) {
     contactForm.removeAttribute("action");
     contactForm.removeAttribute("method");
     contactForm.setAttribute("onsubmit", "return false;");
+    contactForm.addEventListener("submit", function(e) {
+      try { e.preventDefault(); e.stopPropagation(); if (e.stopImmediatePropagation) e.stopImmediatePropagation(); } catch(_) {}
+      return false;
+    }, true);
     contactForm.addEventListener("submit", async function(e) {
-      try { e.preventDefault(); } catch(_) {}
-      try { e.stopPropagation(); } catch(_) {}
-      try { if (e.stopImmediatePropagation) e.stopImmediatePropagation(); } catch(_) {}
+      try { e.preventDefault(); e.stopPropagation(); if (e.stopImmediatePropagation) e.stopImmediatePropagation(); } catch(_) {}
+      return false;
 
     const raw = localStorage.getItem("mdz_user");
     if (!raw) {
