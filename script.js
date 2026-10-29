@@ -1247,13 +1247,18 @@ if (contactForm) {
     try {
       const payload = { title: title, message: message, user: user, category: cat || "" };
       let r;
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
       try {
         r = await fetch(`${API_BASE}/api/contact`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
+          signal: controller.signal,
         });
+        clearTimeout(timeoutId);
       } catch (e) {
+        clearTimeout(timeoutId);
         try {
           r = await fetch(`${API_BASE}/api/contact`, {
             method: "POST",
@@ -1266,21 +1271,25 @@ if (contactForm) {
             r = await new Promise((resolve, reject) => {
               xhr.open("POST", `${API_BASE}/api/contact`, true);
               xhr.setRequestHeader("Content-Type", "application/json");
+              xhr.timeout = 15000;
               xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
                   resolve({
                     ok: xhr.status >= 200 && xhr.status < 300,
                     status: xhr.status,
-                    json: async () => JSON.parse(xhr.responseText || "{}"),
+                    json: async () => {
+                      try { return JSON.parse(xhr.responseText || "{}"); } catch(e){ return {}; }
+                    },
                     text: async () => xhr.responseText || ""
                   });
                 }
               };
-              xhr.onerror = reject;
+              xhr.ontimeout = () => reject(new Error("timeout"));
+              xhr.onerror = () => reject(new Error("network_error"));
               xhr.send(JSON.stringify(payload));
             });
           } catch (e3) {
-            throw e;
+            throw e3;
           }
         }
       }
