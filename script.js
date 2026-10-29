@@ -1185,10 +1185,17 @@ if (contactForm) {
   const statusEl = document.getElementById("formStatus");
   const submitBtn = contactForm.querySelector("button[type=submit]");
 
-  contactForm.addEventListener("submit", async (e) => {
-    try { e.preventDefault(); } catch(_) {}
-    try { e.stopPropagation(); } catch(_) {}
-    try { if (e.stopImmediatePropagation) e.stopImmediatePropagation(); } catch(_) {}
+  if (contactForm) {
+    contactForm.onsubmit = async (e) => {
+      try { e.preventDefault(); } catch(_) {}
+      try { e.stopPropagation(); } catch(_) {}
+      try { if (e.stopImmediatePropagation) e.stopImmediatePropagation(); } catch(_) {}
+      return false;
+    };
+    contactForm.addEventListener("submit", async (e) => {
+      try { e.preventDefault(); } catch(_) {}
+      try { e.stopPropagation(); } catch(_) {}
+      try { if (e.stopImmediatePropagation) e.stopImmediatePropagation(); } catch(_) {}
 
     const raw = localStorage.getItem("mdz_user");
     if (!raw) {
