@@ -1238,7 +1238,8 @@ if (contactForm) {
       const r = await fetch(`${API_BASE}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, message, user, category: cat }),
+        body: JSON.stringify({ title: title, message: message, user: user, category: cat }),
+        mode: "cors",
       });
       if (!r.ok) {
         let apiError = "http_" + r.status;
