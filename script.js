@@ -680,9 +680,12 @@ function showView(name, options) {
           localStorage.setItem("mdz_contact_cat", queryCat.toLowerCase());
           const catInput = document.getElementById("cCategory");
           if (catInput) catInput.value = queryCat.toLowerCase();
+          if (document.body) document.body.setAttribute("data-contact-category", queryCat.toLowerCase());
         } else {
+          const saved = localStorage.getItem("mdz_contact_cat") || "";
           const catInput = document.getElementById("cCategory");
-          if (catInput) catInput.value = localStorage.getItem("mdz_contact_cat") || "";
+          if (catInput) catInput.value = saved;
+          if (document.body) document.body.setAttribute("data-contact-category", saved);
         }
       } catch (_) {}
     }
@@ -1231,6 +1234,13 @@ if (contactForm) {
         try {
           cat = (new URLSearchParams((h.split("?")[1] || "").replace(/^\?/, "")).get("category") || "").toLowerCase();
         } catch (_) {}
+      }
+    }
+    if (!cat) {
+      const body = document.body;
+      if (body) {
+        const bcat = body.getAttribute("data-contact-category") || "";
+        if (bcat) cat = bcat.toLowerCase();
       }
     }
     cat = (cat || "").toLowerCase();
