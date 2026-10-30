@@ -740,7 +740,13 @@ document.addEventListener("click", (event) => {
   const link = event.target.closest("[data-view-link]");
   if (!link) return;
   event.preventDefault();
-  showView(link.dataset.viewLink, { scrollTo: link.dataset.scroll });
+  const target = link.dataset.viewLink || link.getAttribute("href")?.replace("#", "") || "";
+  const cat = link.dataset.category || null;
+  if (target === "contact" && cat) {
+    showView(`contact?category=${encodeURIComponent(cat)}`, { scrollTo: link.dataset.scroll });
+    return;
+  }
+  showView(target, { scrollTo: link.dataset.scroll });
 });
 
 window.addEventListener("hashchange", () => {
