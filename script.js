@@ -461,7 +461,28 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
 /* ---------- Preloader ---------- */
 window.addEventListener("load", () => {
-  try { setTimeout(() => { const p = document.getElementById("preloader"); if (p) p.classList.add("done"); }, 300); } catch(_) {}
+  try { setTimeout(() => { const p = document.getElementById("preloader"); if (p) { p.classList.add("done"); p.style.display = "none"; p.style.opacity = "0"; p.style.pointerEvents = "none"; p.style.visibility = "hidden"; try { p.remove(); } catch(_) {} } }, 250); } catch(_) {}
+
+(function() {
+  function killPreloader() {
+    try {
+      const p = document.getElementById("preloader");
+      if (p) {
+        p.classList.add("done");
+        p.style.display = "none";
+        p.style.opacity = "0";
+        p.style.pointerEvents = "none";
+        p.style.visibility = "hidden";
+        try { p.remove(); } catch(_) {}
+      }
+    } catch(_) {}
+  }
+  if (document.readyState === "complete") killPreloader();
+  window.addEventListener("load", killPreloader, { once: true });
+  setTimeout(killPreloader, 800);
+  setTimeout(killPreloader, 1500);
+  setTimeout(killPreloader, 3000);
+})();
 });
 
 /* ---------- Scroll progress + nav ---------- */
