@@ -739,8 +739,19 @@ function showView(name, options) {
 document.addEventListener("click", (event) => {
   const link = event.target.closest("[data-view-link]");
   if (!link) return;
+  const href = link.getAttribute("href") || "";
+  if (href.includes("category=")) {
+    const q = href.split("?")[1] || "";
+    const p = new URLSearchParams(q);
+    const c = p.get("category") || p.get("cat");
+    if (c) {
+      event.preventDefault();
+      showView(`contact?category=${encodeURIComponent(c)}`, { scrollTo: link.dataset.scroll });
+      return;
+    }
+  }
   event.preventDefault();
-  const target = link.dataset.viewLink || link.getAttribute("href")?.replace("#", "") || "";
+  const target = link.dataset.viewLink || href.replace("#", "") || "";
   const cat = link.dataset.category || null;
   if (target === "contact" && cat) {
     showView(`contact?category=${encodeURIComponent(cat)}`, { scrollTo: link.dataset.scroll });
