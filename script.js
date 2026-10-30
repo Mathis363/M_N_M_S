@@ -461,7 +461,7 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
 /* ---------- Preloader ---------- */
 window.addEventListener("load", () => {
-  setTimeout(() => document.getElementById("preloader").classList.add("done"), 700);
+  try { setTimeout(() => { const p = document.getElementById("preloader"); if (p) p.classList.add("done"); }, 300); } catch(_) {}
 });
 
 /* ---------- Scroll progress + nav ---------- */
