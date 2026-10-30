@@ -737,28 +737,33 @@ function showView(name, options) {
 }
 
 document.addEventListener("click", (event) => {
-  const link = event.target.closest("[data-view-link]");
+  const link = event.target.closest("[data-view-link], .portal-card, a[href*='contact?category']");
   if (!link) return;
   const href = link.getAttribute("href") || "";
-  if (href.includes("category=")) {
-    const q = href.split("?")[1] || "";
-    const p = new URLSearchParams(q);
-    const c = p.get("category") || p.get("cat");
-    if (c) {
-      event.preventDefault();
-      showView(`contact?category=${encodeURIComponent(c)}`, { scrollTo: link.dataset.scroll });
-      return;
+  if (href.includes("contact?category") || href.includes("category=")) {
+    event.preventDefault();
+    event.stopPropagation();
+    try { if (event.stopImmediatePropagation) event.stopImmediatePropagation(); } catch(_) {}
+    let target = href;
+    if (target.startsWith("#")) {
+      // ok
+    } else if (target.includes("#")) {
+      target = target.split("#")[1];
+    } else {
+      target = "contact?" + target.split("?")[1];
     }
-  }
-  event.preventDefault();
-  const target = link.dataset.viewLink || href.replace("#", "") || "";
-  const cat = link.dataset.category || null;
-  if (target === "contact" && cat) {
-    showView(`contact?category=${encodeURIComponent(cat)}`, { scrollTo: link.dataset.scroll });
+    showView(target, { scrollTo: link.dataset.scroll, instant: true });
     return;
   }
-  showView(target, { scrollTo: link.dataset.scroll });
-});
+  if (link.hasAttribute("data-view-link")) {
+    event.preventDefault();
+    event.stopPropagation();
+    try { if (event.stopImmediatePropagation) event.stopImmediatePropagation(); } catch(_) {}
+    const target = link.dataset.viewLink || href.replace("#", "") || "";
+    showView(target, { scrollTo: link.dataset.scroll });
+    return;
+  }
+}, true);
 
 window.addEventListener("hashchange", () => {
   const hash = location.hash.replace("#", "");
