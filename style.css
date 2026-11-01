@@ -118,6 +118,8 @@ html[data-theme="violet"] {
   --accent-2: #38bdf8;
 }
 body { transition: background-color .4s var(--ease); }
+/* Applique réellement la couleur de fond du thème (elle passe sous les dégradés). */
+html[data-theme] body { background-color: var(--bg); }
 
 /* Masque le contenu tant que site-state.json n'a pas répondu (max 2,5 s). */
 html[data-state="loading"] body { visibility: hidden; }
