@@ -1215,8 +1215,7 @@ if (contactForm) {
   const statusEl = document.getElementById("formStatus");
   const submitBtn = contactForm.querySelector("button[type=submit]");
 
-  if (contactForm) {
-    contactForm.removeAttribute("action");
+  contactForm.removeAttribute("action");
     contactForm.removeAttribute("method");
     contactForm.setAttribute("onsubmit", "return false;");
     const stop = function(e) {
@@ -1231,6 +1230,7 @@ if (contactForm) {
     contactForm.addEventListener("submit", async function(e) {
       stop(e);
 
+    try {
     const raw = localStorage.getItem("mdz_user");
     if (!raw) {
       if (statusEl) {
@@ -1282,6 +1282,7 @@ if (contactForm) {
     cat = (cat || "").toLowerCase();
     const payload = { title: title, message: message, user: user, category: cat };
     let success = false;
+    let apiFail = "";
     try {
       const resp = await fetch(`${API_BASE}/api/contact`, {
         method: "POST",
@@ -1292,6 +1293,11 @@ if (contactForm) {
         success = true;
       } else {
         success = false;
+        apiFail = "http_" + resp.status;
+        try {
+          const j = await resp.json();
+          if (j && j.error) apiFail = j.error;
+        } catch (_) {}
       }
     } catch (e) {
       try {
@@ -1306,6 +1312,11 @@ if (contactForm) {
                 success = true;
               } else {
                 success = false;
+                apiFail = "http_" + xhr.status;
+                try {
+                  const j = JSON.parse(xhr.responseText || "{}");
+                  if (j && j.error) apiFail = j.error;
+                } catch (_) {}
               }
               resolve();
             }
@@ -1318,21 +1329,9 @@ if (contactForm) {
         success = false;
       }
     }
-    if (success) {
-        let apiError = "http_" + r.status;
-        try {
-          const j = await r.json();
-          if (j && j.error) apiError = j.error;
-        } catch (_) {
-          try {
-            if (r.text) {
-              const t = await r.text();
-              if (t) apiError = t.substring(0, 100);
-            }
-          } catch (_) {}
-        }
-        throw new Error(apiError);
-      }
+    if (!success) {
+      throw new Error(apiFail || "network");
+    }
       if (statusEl) {
         statusEl.className = "form-status ok";
         statusEl.textContent = t("contact.ok");
@@ -1354,10 +1353,6 @@ if (contactForm) {
       } catch (_) {}
       if (submitBtn) submitBtn.disabled = false;
       return;
-      try {
-        const catInput = document.getElementById("cCategory");
-        if (catInput) catInput.value = "";
-      } catch (_) {}
     } catch (err) {
       if (statusEl) {
         statusEl.className = "form-status err";

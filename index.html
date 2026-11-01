@@ -10,9 +10,65 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <script>
+    /* ============================================================
+       État du site (thème + maintenance).
+       Publié par l'application « M_N_M_S Control ».
+       Exécuté dans le <head> pour appliquer le thème avant l'affichage.
+       ============================================================ */
+    (function () {
+      var root = document.documentElement;
+      root.setAttribute("data-state", "loading");
+      var done = false;
+      function finish() {
+        if (done) return;
+        done = true;
+        root.setAttribute("data-state", "ready");
+      }
+      try {
+        fetch("site-state.json?v=" + Date.now(), { cache: "no-store" })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (state) {
+            if (!state || typeof state !== "object") return;
+            if (state.theme) root.setAttribute("data-theme", String(state.theme));
+            if (state.maintenance) {
+              root.setAttribute("data-maintenance", "1");
+              window.__MNM_MAINTENANCE__ = state;
+              if (state.message) {
+                var el = document.getElementById("mnmMaintenanceText");
+                if (el) el.textContent = state.message;
+              }
+              document.title = "Site fermé — M_N_M_S";
+            }
+          })
+          .catch(function () {})
+          .then(finish, finish);
+      } catch (e) {
+        finish();
+      }
+      /* Filet de sécurité : on n'attend jamais plus de 2,5 s. */
+      setTimeout(finish, 2500);
+    })();
+  </script>
 </head>
 <body>
+  <div class="maintenance" id="mnmMaintenance" role="dialog" aria-modal="true">
+    <div class="maintenance__glow"></div>
+    <div class="maintenance__card">
+      <span class="maintenance__icon">🛠️</span>
+      <span class="maintenance__badge">Maintenance</span>
+      <h1 class="maintenance__title" id="mnmMaintenanceTitle">Le site est fermé pour le moment</h1>
+      <p class="maintenance__text" id="mnmMaintenanceText">Désolé, le site web est fermé pour le moment.</p>
+      <p class="maintenance__sub">Revenez un peu plus tard — merci de votre patience.</p>
+    </div>
+  </div>
+
   <div class="preloader" id="preloader">
+    <div class="preloader__logo">
+      <span class="preloader__mark">M_N_M_S</span>
+      <span class="preloader__bar"><i></i></span>
+    </div>
+  </div>
 
   <div class="scroll-progress" id="scrollProgress"></div>
 
