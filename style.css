@@ -88,6 +88,8 @@ html[data-theme="neon"] {
   --primary-2: #a855f7;
   --accent: #2efad4;
   --accent-2: #ffd60a;
+  --glow: rgba(255, 46, 166, 0.55);
+  --glow-2: rgba(168, 85, 247, 0.5);
 }
 html[data-theme="ocean"] {
   --bg: #03080f;
@@ -95,6 +97,8 @@ html[data-theme="ocean"] {
   --primary-2: #2563eb;
   --accent: #22d3ee;
   --accent-2: #34d399;
+  --glow: rgba(14, 165, 233, 0.55);
+  --glow-2: rgba(37, 99, 235, 0.5);
 }
 html[data-theme="forest"] {
   --bg: #040a06;
@@ -102,6 +106,8 @@ html[data-theme="forest"] {
   --primary-2: #16a34a;
   --accent: #a3e635;
   --accent-2: #facc15;
+  --glow: rgba(34, 197, 94, 0.5);
+  --glow-2: rgba(163, 230, 53, 0.45);
 }
 html[data-theme="ruby"] {
   --bg: #0a0406;
@@ -109,6 +115,8 @@ html[data-theme="ruby"] {
   --primary-2: #f97316;
   --accent: #fbbf24;
   --accent-2: #fb7185;
+  --glow: rgba(239, 68, 68, 0.55);
+  --glow-2: rgba(249, 115, 22, 0.5);
 }
 html[data-theme="violet"] {
   --bg: #06040e;
@@ -116,6 +124,8 @@ html[data-theme="violet"] {
   --primary-2: #6366f1;
   --accent: #e879f9;
   --accent-2: #38bdf8;
+  --glow: rgba(139, 92, 246, 0.55);
+  --glow-2: rgba(232, 121, 249, 0.5);
 }
 body { transition: background-color .4s var(--ease); }
 /* Applique réellement la couleur de fond du thème (elle passe sous les dégradés). */
