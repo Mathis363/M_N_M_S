@@ -150,6 +150,7 @@ const I18N = {
     "modal.start.title": "Discord login",
     "modal.start.text": "Connect your Discord account to access the site.",
     "modal.start.btn": "Generate a code",
+    "modal.start.busy": "Generating…",
     "modal.code.title": "Your login code",
     "modal.code.text": "Type this command on Discord:",
     "modal.code.waiting": "Waiting for confirmation…",
@@ -349,6 +350,7 @@ const I18N = {
     "modal.start.title": "Connexion Discord",
     "modal.start.text": "Connectez votre compte Discord pour accéder au site.",
     "modal.start.btn": "Générer un code",
+    "modal.start.busy": "Génération…",
     "modal.code.title": "Votre code de connexion",
     "modal.code.text": "Tapez cette commande sur Discord :",
     "modal.code.waiting": "En attente de validation…",
@@ -1049,9 +1051,9 @@ const showState = (which) => {
 const openModal = () => {
   modal.classList.add("open");
   document.body.classList.add("locked");
-  const saved = localStorage.getItem("mdz_user");
+  const saved = getStoredUser();
   if (saved) {
-    renderUser(JSON.parse(saved));
+    renderUser(saved);
     showState(stateDone);
   } else {
     showState(stateStart);
@@ -1118,9 +1120,20 @@ window.addEventListener("focus", syncUserLang);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) syncUserLang(); });
 
 document.getElementById("startPair").addEventListener("click", async () => {
+  const btn = document.getElementById("startPair");
+  const idleLabel = btn.textContent;
+  if (btn.disabled) return;
+  btn.disabled = true;
+  btn.textContent = t("modal.start.busy");
+
+  const ctrl = typeof AbortController === "function" ? new AbortController() : null;
+  const timer = ctrl ? setTimeout(() => ctrl.abort(), 20000) : null;
+
   try {
-    const r = await fetch(`${API_BASE}/api/pair/new`, { method: "POST" });
-    if (!r.ok) throw new Error("api");
+    const options = { method: "POST" };
+    if (ctrl) options.signal = ctrl.signal;
+    const r = await fetch(`${API_BASE}/api/pair/new`, options);
+    if (!r.ok) throw new Error("http_" + r.status);
     const { code } = await r.json();
     document.getElementById("codeValue").textContent = code;
     document.getElementById("codeInline").textContent = code;
@@ -1128,6 +1141,10 @@ document.getElementById("startPair").addEventListener("click", async () => {
     pollStatus(code);
   } catch (err) {
     alert(t("alert.api") + "\n\n" + API_BASE);
+  } finally {
+    if (timer) clearTimeout(timer);
+    btn.disabled = false;
+    btn.textContent = idleLabel;
   }
 });
 
@@ -1167,9 +1184,9 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const saved = localStorage.getItem("mdz_user");
+  const saved = getStoredUser();
   if (saved) {
-    renderUser(JSON.parse(saved));
+    renderUser(saved);
     syncUserLang();
   }
 });
@@ -1184,8 +1201,7 @@ const openTicketBtn = document.getElementById("openTicketForm");
 
 function updateContactForm() {
   if (!contactForm || contactForm.classList.contains("is-hidden")) return;
-  const raw = localStorage.getItem("mdz_user");
-  const user = raw ? JSON.parse(raw) : null;
+  const user = getStoredUser();
   const formUser = document.getElementById("formUser");
   const formGuest = document.getElementById("formGuest");
   if (user) {
@@ -1215,20 +1231,14 @@ if (contactForm) {
   const statusEl = document.getElementById("formStatus");
   const submitBtn = contactForm.querySelector("button[type=submit]");
 
+  // Static site: never let the browser submit the form natively.
   contactForm.removeAttribute("action");
-    contactForm.removeAttribute("method");
-    contactForm.setAttribute("onsubmit", "return false;");
-    const stop = function(e) {
-      if (e) { try { e.preventDefault(); } catch(_){} try { e.stopPropagation(); } catch(_){} try { if (e.stopImmediatePropagation) e.stopImmediatePropagation(); } catch(_){} }
-      return false;
-    };
-    contactForm.onsubmit = stop;
-    if (contactForm.addEventListener) {
-      contactForm.addEventListener("submit", stop, true);
-      contactForm.addEventListener("submit", stop, false);
-    }
-    contactForm.addEventListener("submit", async function(e) {
-      stop(e);
+  contactForm.removeAttribute("method");
+  contactForm.removeAttribute("onsubmit");
+
+  contactForm.addEventListener("submit", async function (e) {
+    if (e) e.preventDefault();
+    let abortTimer = null;
 
     try {
     const raw = localStorage.getItem("mdz_user");
@@ -1239,7 +1249,20 @@ if (contactForm) {
       }
       return;
     }
-    const user = JSON.parse(raw);
+    let user = null;
+    try {
+      user = JSON.parse(raw);
+    } catch (_) {
+      user = null;
+    }
+    if (!user) {
+      try { localStorage.removeItem("mdz_user"); } catch (_) {}
+      if (statusEl) {
+        statusEl.className = "form-status err";
+        statusEl.textContent = t("contact.needLogin");
+      }
+      return;
+    }
     const titleInput = document.getElementById("cTitle");
     const messageInput = document.getElementById("cMessage");
     const title = titleInput ? titleInput.value.trim() : "";
@@ -1283,12 +1306,16 @@ if (contactForm) {
     const payload = { title: title, message: message, user: user, category: cat };
     let success = false;
     let apiFail = "";
+    const ctrl = typeof AbortController === "function" ? new AbortController() : null;
+    abortTimer = ctrl ? setTimeout(() => ctrl.abort(), 30000) : null;
     try {
-      const resp = await fetch(`${API_BASE}/api/contact`, {
+      const options = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-      });
+      };
+      if (ctrl) options.signal = ctrl.signal;
+      const resp = await fetch(`${API_BASE}/api/contact`, options);
       if (resp.ok) {
         success = true;
       } else {
@@ -1300,6 +1327,7 @@ if (contactForm) {
         } catch (_) {}
       }
     } catch (e) {
+      apiFail = e && e.name === "AbortError" ? "timeout" : "network";
       try {
         const xhr = new XMLHttpRequest();
         await new Promise((resolve, reject) => {
@@ -1359,6 +1387,7 @@ if (contactForm) {
         statusEl.textContent = tReplace("contact.error", { msg: err.message || "Failed", api: API_BASE });
       }
     } finally {
+      if (abortTimer) clearTimeout(abortTimer);
       if (submitBtn) submitBtn.disabled = false;
     }
   });
